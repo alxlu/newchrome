@@ -60,9 +60,13 @@ const instance = argv => {
 
 const auto = argv => {
   const config = fs.existsSync(configFile) && require(configFile);
-  const profile = typeof config === 'function' ? config(argv.url) : 'default';
-  const dir = join(profileDir, profile);
-  runChrome(dir, argv.url, argv.flags);
+  const profile = typeof config === 'function' ? config(argv.url) : null;
+  if (typeof profile === 'string') {
+    const dir = join(profileDir, profile);
+    runChrome(dir, argv.url, argv.flags);
+  } else {
+    execSync(`exec open -na "Google Chrome" --args ${argv.url}`);
+  }
 };
 
 const edit = argv => {

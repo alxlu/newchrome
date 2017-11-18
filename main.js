@@ -25,11 +25,11 @@ try {
 
 const runChrome = (dir, url, flags) => {
   if (flags) {
-    const cmd = `exec open -na "Google Chrome" --args "--user-data-dir=${dir}" ${flags} ${url}`;
+    const cmd = `exec open -na "Google Chrome" --args "--user-data-dir=${dir}" "${flags}" "${url}"`;
     console.log(cmd);
     execSync(cmd);
   } else {
-    const cmd = `exec open -na "Google Chrome" --args "--user-data-dir=${dir}" ${url}`;
+    const cmd = `exec open -na "Google Chrome" --args "--user-data-dir=${dir}" "${url}"`;
     console.log(cmd);
     execSync(cmd);
   }
@@ -65,7 +65,7 @@ const auto = argv => {
     const dir = join(profileDir, profile);
     runChrome(dir, argv.url, argv.flags);
   } else {
-    execSync(`exec open -na "Google Chrome" --args ${argv.url}`);
+    execSync(`exec open -na "Google Chrome" --args "${argv.url}"`);
   }
 };
 
@@ -76,7 +76,7 @@ const edit = argv => {
 };
 
 const launchDefault = (argv) => {
-  execSync(`exec open -na "Google Chrome" --args ${argv.url}`);
+  execSync(`exec open -na "Google Chrome" --args "${argv.url}"`);
 }
 
 const save = argv => {

@@ -11,6 +11,7 @@ const homeDir = process.env.HOME;
 const tmpDir = os.tmpdir();
 const templateDir = join(homeDir, '.newchrome', 'templates');
 const profileDir = join(homeDir, '.newchrome', 'profiles');
+const configFile = join(homeDir, '.newchrome', 'config.js');
 
 try {
   fs.ensureDirSync(templateDir);
@@ -55,6 +56,13 @@ const instance = argv => {
     throw new Error(err);
   }
   runChrome(tmpDir, argv.url, argv.flags);
+};
+
+const auto = argv => {
+  const config = fs.existsSync(configFile) && require(configFile);
+  const profile = typeof config === 'function' ? config(argv.url) : 'default';
+  const dir = join(profileDir, profile);
+  runChrome(dir, argv.url, argv.flags);
 };
 
 const edit = argv => {
@@ -119,6 +127,22 @@ return yargs
         });
     },
     launch,
+  )
+  .command(
+    ['auto [url]'],
+    'launch profile based on url rules in config file',
+    yargs => {
+      yargs
+        .positional('url', {
+          type: 'string',
+          default: 'about:blank',
+          describe: 'the url to navigate to',
+        })
+        .option('flags', {
+          alias: 'f',
+        });
+    },
+    auto,
   )
   .command(
     ['i [url]', 'instance [url]'],

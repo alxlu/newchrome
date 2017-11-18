@@ -1,0 +1,16 @@
+{
+  "name": "newchrome",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "bin": "main.js",
+  "dependencies": {
+    "fs-extra": "^4.0.2",
+    "pkg": "^4.3.0-beta.1",
+    "tar": "^4.0.2",
+    "yargs": "^10.0.3"
+  },
+  "scripts": {
+    "start": "pkg --targets macos --out-path dist ./package.json && node tar.js"
+  }
+}

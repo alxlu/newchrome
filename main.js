@@ -48,14 +48,14 @@ const launch = argv => {
 
 const instance = argv => {
   const origDir = join(profileDir, argv.name);
-  const tmpDir = join(tmpDir, `${argv.name}${time}`);
+  const instanceDir = join(tmpDir, `${argv.name}${time}`);
   try {
-    fs.copySync(origDir, tmpDir);
+    fs.copySync(origDir, instanceDir);
   } catch (err) {
     console.log('Error writing to temp directory');
     throw new Error(err);
   }
-  runChrome(tmpDir, argv.url, argv.flags);
+  runChrome(instanceDir, argv.url, argv.flags);
 };
 
 const auto = argv => {
